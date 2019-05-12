@@ -1,0 +1,29 @@
+.icon-btn {
+  border-radius: 100px;
+  height: 50px;
+  padding: 0px 1.25em 0px 1.25em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-btn-content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.-btn-outline {
+  border: 1px solid var(--GREY_1);
+  color: var(--NAVY);
+}
+
+.-btn-fill {
+  background-color: var(--BLUE);
+  color: var(--WHITE);
+}
+
+.icon-btn-icon {
+  width: 1.25em;
+  height: 1.25em;
+  margin-right: 0.625em;
+}

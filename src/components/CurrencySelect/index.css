@@ -1,0 +1,10 @@
+.select-icon {
+  width: 1.875em;
+  margin-right: 0.313em;
+}
+
+.input-select-container {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}

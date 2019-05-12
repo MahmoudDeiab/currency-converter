@@ -1,26 +1,72 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { PureComponent } from "react";
+import { fetchExchangeRates } from "./actions/ratesActions";
+import { connect } from "react-redux";
+import CurrencyConverter from "./components/CurrencyConverter";
+import Result from "./components/Result";
+import Header from "./components/Header";
+import {
+  getAmount,
+  getFromCurrency,
+  getToCurrency,
+  getConvertedAmount
+} from "./reducers/Converter/converterSelector";
+import { getIsFetching } from "./reducers/Rates/ratesSelecotr";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends PureComponent {
+  componentDidMount() {
+    this.handleFetchExchangeRates();
+  }
+
+  handleFetchExchangeRates = () => {
+    const { fetchExchangeRates } = this.props;
+    fetchExchangeRates();
+  };
+
+  render() {
+    const {
+      amount,
+      convertedAmount,
+      fromCurrency,
+      toCurrency,
+      isFetching
+    } = this.props;
+    return (
+      <div className="app">
+        <div className="main-wrapper">
+          <Header
+            onReload={this.handleFetchExchangeRates}
+            isFetching={isFetching}
+          />
+          <CurrencyConverter
+            amount={amount}
+            fromCurrency={fromCurrency}
+            toCurrency={toCurrency}
+          />
+          <Result
+            amount={amount}
+            convertedAmount={convertedAmount}
+            fromCurrency={fromCurrency}
+            toCurrency={toCurrency}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  amount: getAmount(state),
+  convertedAmount: getConvertedAmount(state),
+  fromCurrency: getFromCurrency(state),
+  toCurrency: getToCurrency(state),
+  isFetching: getIsFetching(state)
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchExchangeRates: () => dispatch(fetchExchangeRates())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

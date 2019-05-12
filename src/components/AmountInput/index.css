@@ -1,0 +1,8 @@
+.input-field {
+  border: 1px solid var(--GREY_1);
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 0.938em;
+  color: var(--NAVY);
+  font-weight: 300;
+}
