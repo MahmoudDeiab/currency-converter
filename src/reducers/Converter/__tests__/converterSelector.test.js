@@ -34,8 +34,14 @@ const generateState = (amount, fromCurrency, toCurrency) => {
   };
 };
 
-const runTests = (amount, fromCurrency, toCurrency) => {
-  const state = generateState(amount, fromCurrency, toCurrency);
+const runTests = (
+  inputAmount,
+  expectedConversionAmount,
+  inputFromCurrency,
+  inputToCurrency
+) => {
+  const state = generateState(inputAmount, inputFromCurrency, inputToCurrency);
+
   describe("Converter Selector", () => {
     const fromCurrency = getFromCurrency(state);
     const toCurrency = getToCurrency(state);
@@ -57,7 +63,20 @@ const runTests = (amount, fromCurrency, toCurrency) => {
         ).toEqual(true);
       });
     });
+
+    describe("getConvertedAmount", () => {
+      it("Calculates the converted amount", () => {
+        expect(convertedAmount).toEqual(expectedConversionAmount);
+      });
+
+      it("Returns converted amount as is, if the two currencies are the same", () => {
+        if (fromCurrency === toCurrency) {
+          expect(amount).toEqual(convertedAmount);
+        }
+      });
+    });
   });
 };
 
-runTests(1, "EUR", "EUR");
+runTests(1, 1, "EUR", "EUR");
+runTests(2, 2.246, "EUR", "USD");
